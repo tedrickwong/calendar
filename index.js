@@ -238,7 +238,7 @@ function getTemp()
 	// makes weather api call, creates and returns JSON object with relevant data
 	
 	var jsonData;
-	
+
 	try
 	{
 		var request = new XMLHttpRequest();
@@ -343,6 +343,7 @@ function init()
 {
 	setMonthName();
 	setYearValue();
+	requestLocation();
 	setDates();
 }
 
@@ -355,5 +356,4 @@ window.onload = function()
 {
 	init();
 	handleSession();
-	requestLocation();
 };
