@@ -9,34 +9,37 @@ window.addEventListener("resize", tempDisplay);
 
 function getMonthName() 
 {
-	var months = new Array();
-	months[0] = "January";
-	months[1] = "February";
-	months[2] = "March";
-	months[3] = "April";
-	months[4] = "May";
-	months[5] = "June";
-	months[6] = "July";
-	months[7] = "August";
-	months[8] = "September";
-	months[9] = "October";
-	months[10] = "November";
-	months[11] = "December";
-
 	var d = dt;
-	
-	var month = months[d.getMonth()];
+	if(month >= 0 && year >= 0)
+	{
+		d = new Date(year, month);
+	}
+	// starts at index 0
+	var month = d.getMonth();
 	return month;
 }
 
 function setMonthName()
 {
-	document.getElementById("month-name").innerHTML = getMonthName();
+	var id = "month-" + getMonthName(month, year);
+	document.getElementById(id).selected = true;
 }
 
 function setYearValue()
 {
-	document.getElementById("year-val").innerHTML = currentYear;
+	var i;
+	var options;
+	var start = currentYear-4;
+	var end = currentYear+5;
+	for(i = start; i < end; i++){
+		if(currentYear == i){
+			options += "<option value=\"" + i + "\" id=\"year-" +  i + "\" selected>" + i + "</option>";
+		}
+		else{
+			options += "<option value=\"" + i + "\" id=\"year-" +  i + "\">" + i + "</option>";
+		}
+	}
+	document.getElementById("year-menu").innerHTML = options;
 }
 
 function setDates()
@@ -295,7 +298,6 @@ function getTemp()
 }
 
 
-
 function tempDisplay()
 {
 	/* event listener function for window resize */
@@ -316,6 +318,28 @@ function tempDisplay()
 		}
 	}
 	
+function selectMonth()
+{
+	var monthOption = document.getElementById("month-menu"); 
+	var value = monthOption.options[monthOption.selectedIndex].value;
+	currentMonth = value;
+
+	dt = new Date(currentYear,currentMonth);
+	setMonthName();
+	setYearValue();
+	setDates();
+}
+
+function selectYear()
+{
+	var yearOption = document.getElementById("year-menu"); 
+	var value = yearOption.options[yearOption.selectedIndex].value;
+	currentYear = parseInt(value);
+
+	dt = new Date(currentYear,currentMonth);
+	setMonthName();
+	setYearValue();
+	setDates();
 }
 
 function init()
