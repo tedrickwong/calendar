@@ -1,8 +1,17 @@
 var dt = new Date();
+// state variables
 var currentMonth = dt.getMonth();
 var currentYear = dt.getFullYear();
+var currentDay = dt.getDate();
+// present variables
+const presentMonth = currentMonth;
+const presentYear = currentYear;
+const presentDay = currentDay;
+
+
 var latitude;
 var longitude;
+
 window.addEventListener("resize", tempDisplay);
 
 /* Calendar Data Functions */
@@ -100,13 +109,17 @@ function setDates()
 
 function configDateBox(day = -1)
 {
+	
 	var htmlString = "";
 	
-	htmlString += "<td class='text-right'>";
-	
-	htmlString += "<strong>"+(day + 1)+"</strong>";
-	
-	htmlString += "</td>";
+	if((day + 1) == presentDay && currentYear == presentYear && currentMonth == presentMonth)
+	{
+		htmlString += "<td class='text-right'><span class='circled'><strong>" + (day + 1) + "</strong></span></td>";
+	}
+	else
+	{
+		htmlString += "<td class='text-right'><strong>" + (day + 1) + "</strong></td>";
+	}
 	
 	return htmlString;
 }
