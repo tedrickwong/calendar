@@ -24,6 +24,7 @@ table td
 {
   border: 1px solid black;
   width: 14.28vw;
+  padding: 5px !important;
 }
 
 .nav-head
