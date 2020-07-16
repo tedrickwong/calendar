@@ -10,10 +10,6 @@ window.addEventListener("resize", tempDisplay);
 function getMonthName() 
 {
 	var d = dt;
-	if(month >= 0 && year >= 0)
-	{
-		d = new Date(year, month);
-	}
 	// starts at index 0
 	var month = d.getMonth();
 	return month;
@@ -21,7 +17,7 @@ function getMonthName()
 
 function setMonthName()
 {
-	var id = "month-" + getMonthName(month, year);
+	var id = "month-" + getMonthName(currentMonth, currentYear);
 	document.getElementById(id).selected = true;
 }
 
@@ -317,6 +313,7 @@ function tempDisplay()
 			barTemps[b1].style.display = "none";
 		}
 	}
+}
 	
 function selectMonth()
 {
