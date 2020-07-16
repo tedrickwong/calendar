@@ -101,22 +101,35 @@ function setDates()
 function configDateBox(day = -1)
 {
 	var htmlString = "";
-	var tempColor = "";
 	
 	htmlString += "<td class='text-right'>";
 	
-	if( sessionStorage.getItem("location-accepted") != "false" )
+	htmlString += "<strong>"+(day + 1)+"</strong>";
+	
+	htmlString += "</td>";
+	
+	return htmlString;
+}
+
+function addWeather(data)
+{
+	
+	var weather = data;
+	var len = Object.keys(weather).length;
+	var days = document.getElementsByTagName("td");
+	
+	for(v = 0;v < days.length;v++)
 	{
-		var weather = getTemp();
-		
-		if(weather != null)
+		if(days[v].classList.contains("text-right"))
 		{
+			var newnode;
+			var newnode2;
 			var temp = null;
-			var len = Object.keys(weather).length;
+			var tempColor = "";
 			
 			for(k in weather)
 			{
-				if(weather[k][0] == currentYear && weather[k][1] == currentMonth && weather[k][2] == day)
+				if(weather[k][0] == currentYear && weather[k][1] == currentMonth && weather[k][2] == days[v].firstChild.innerHTML)
 				{
 					temp = parseInt(weather[k][3]);
 					break;
@@ -137,35 +150,40 @@ function configDateBox(day = -1)
 				default:
 					break;
 			}
+			
+			if(tempColor)
+			{
+				if(window.outerWidth >= 450)
+				{
+					newnode = document.createElement("span");
+					newnode.setAttribute("style","float:left");
+					newnode.setAttribute("class","badge badge-pill badge-"+tempColor);
+					newnode.innerHTML = temp;
+					
+					newnode2 = document.createElement("div");
+					newnode2.setAttribute("class","progress");
+					newnode2.setAttribute("style","height:5px;display:none;");
+					newnode2.innerHTML = "<div class='progress-bar bg-"+ tempColor +"' role='progressbar' style='width: 100%;' aria-valuenow='25' aria-valuemin='0' aria-valuemax='100'></div>";					
+				}
+				else
+				{				
+					newnode = document.createElement("div");
+					newnode.setAttribute("class","progress");
+					newnode.setAttribute("style","height:5px;");
+					newnode.innerHTML = "<div class='progress-bar bg-"+ tempColor +"' role='progressbar' style='width: 100%;' aria-valuenow='25' aria-valuemin='0' aria-valuemax='100'></div>";
+					
+					newnode2 = document.createElement("span");
+					newnode2.setAttribute("style","float:left;display:none;");
+					newnode2.setAttribute("class","badge badge-pill badge-"+tempColor);
+					newnode2.innerHTML = temp;					
+				}
+				days[v].insertBefore(newnode, days[v].firstChild);
+				days[v].insertBefore(newnode2, days[v].firstChild);
+			}
+			
+			
 		}
 	}
-	
-	
-	
-	if(tempColor)
-	{
-		if(window.outerWidth >= 450)
-		{
-			htmlString += "<span style='float:left;' class='badge badge-pill badge-"+tempColor+"'>"+temp+"</span>";
-			htmlString += "<div class='progress' style='height:5px;display:none;'> \
-						  <div class='progress-bar bg-"+ tempColor +"' role='progressbar' style='width: 100%;' aria-valuenow='25' aria-valuemin='0' aria-valuemax='100'></div> \
-						</div>";
-		}
-		else
-		{
-			htmlString += "<div class='progress' style='height: 5px;'> \
-						  <div class='progress-bar bg-"+ tempColor +"' role='progressbar' style='width: 100%;' aria-valuenow='25' aria-valuemin='0' aria-valuemax='100'></div> \
-						</div>";
-			htmlString += "<span style='float:left;display:none;' class='badge badge-pill badge-"+tempColor+"'>"+temp+"</span>";
-		}
-		
-		
-	}
-	htmlString += "<strong>"+(day + 1)+"</strong>";
-	
-	htmlString += "</td>";
-	
-	return htmlString;
 }
 
 function nextMonth()
@@ -181,6 +199,7 @@ function nextMonth()
 	setMonthName();
 	setYearValue();
 	setDates();
+	getTemp();
 }
 
 function prevMonth()
@@ -196,6 +215,7 @@ function prevMonth()
 	setMonthName();
 	setYearValue();
 	setDates();
+	getTemp();
 }
 
 /* Location Functions */
@@ -238,59 +258,71 @@ function getTemp()
 	// makes weather api call, creates and returns JSON object with relevant data
 	
 	var jsonData;
+	var forecastData;
+	var weatherData = {};
 
 	try
 	{
 		var request = new XMLHttpRequest();
 		var requestURL = "https://api.weather.gov/points/"+latitude.toString()+","+longitude.toString();
-		request.open('GET', requestURL);
+		request.open('GET', requestURL,true);
 		request.responseType = 'json';
 		request.send();
 		
 		request.onload = function()
 		{
-			jsonData = request.response;
-		}
-		
-		var forecastData;
-		
-		var request2 = new XMLHttpRequest();
-		var forecastURL = jsonData.properties.forecast;
-		request2.open('GET', forecastURL);
-		request2.responseType = 'json';
-		request2.send();
-		
-		request2.onload = function()
-		{
-			forecastData = request2.response;
-		}
-		
-		var weekForecast = forecastData.properties;
-		var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-		var weatherData = {};
-		
-		for (w in weekForecast.periods)
-		{
-			var day = weekForecast.periods[w].name;
-			var isDay = days.includes(weekForecast.periods[w].name);
-			var ST = new Date(weekForecast.periods[w].startTime);
-			var d = ST.getUTCDate();
-			var m = ST.getUTCMonth();
-			var y = ST.getUTCFullYear();
+			var forecastURL = request.response.properties.forecast;
 			
-			if(isDay)
+			request.open('GET', forecastURL);
+			request.responseType = 'json';
+			request.send();
+			
+			request.onload = async function()
 			{
-				var temp = weekForecast.periods[w].temperature;
-				weatherData[day] = [y,m,d,temp];
-			}	
+				if(request.readyState == 4)
+				{
+					if(request.status == 200)
+					{
+						weatherData = parseTemp(request);
+						addWeather(weatherData);
+					}
+				}
+				
+			}
 		}
-		return weatherData;	
 	}
 	catch(err)
 	{
 		console.log(err.message);
 	}
-	return null;
+}
+
+function parseTemp(rqst)
+{
+	var data = {};
+	var request = rqst;
+	
+	forecastData = request.response;
+				
+	var weekForecast = forecastData.properties;
+	var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+	
+	for (w in weekForecast.periods)
+	{
+		var day = weekForecast.periods[w].name;
+		var isDay = days.includes(weekForecast.periods[w].name);
+		var ST = new Date(weekForecast.periods[w].startTime);
+		var d = ST.getUTCDate();
+		var m = ST.getUTCMonth();
+		var y = ST.getUTCFullYear();
+		
+		if(isDay)
+		{
+			var temp = weekForecast.periods[w].temperature;
+			data[day] = [y,m,d,temp];
+		}	
+	}
+	return data;
 }
 
 
@@ -325,6 +357,7 @@ function selectMonth()
 	setMonthName();
 	setYearValue();
 	setDates();
+	getTemp();
 }
 
 function selectYear()
@@ -337,14 +370,17 @@ function selectYear()
 	setMonthName();
 	setYearValue();
 	setDates();
+	getTemp();
 }
 
 function init()
 {
+	handleSession();
 	setMonthName();
 	setYearValue();
 	requestLocation();
 	setDates();
+	getTemp();
 }
 
 function handleSession()
@@ -355,5 +391,4 @@ function handleSession()
 window.onload = function() 
 {
 	init();
-	handleSession();
 };
