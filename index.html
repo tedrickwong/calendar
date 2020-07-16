@@ -30,14 +30,33 @@
 	
 		<div class="row nav-head">
 			<div class="col-6 col-sm-6 col-md-6">
-				<h3 id="month-name">
-					<!-- populated by JS -->
-				</h3>
+				<div class="drop">
+					<h3>
+						<select class="drop-menu" id="month-menu" onchange="selectMonth()">
+							<option value="0" id="month-0">January</option>
+							<option value="1" id="month-1">Febuary</option>
+							<option value="2" id="month-2">March</option>
+							<option value="3" id="month-3">April</option>
+							<option value="4" id="month-4">May</option>
+							<option value="5" id="month-5">June</option>
+							<option value="6" id="month-6">July</option>
+							<option value="7" id="month-7">August</option>
+							<option value="8" id="month-8">September</option>
+							<option value="9" id="month-9">October</option>
+							<option value="10" id="month-10">November</option>
+							<option value="11" id="month-11">December</option>
+						</select>
+					</h3>
+				</div>
 			</div>
 			<div class="col-6 col-sm-6 col-md-6">
-				<h3 id="year-val">
-					<!-- populated by JS -->
-				</h3>
+				<div class="drop">
+					<h3>
+						<select class="drop-menu" id="year-menu" onchange="selectYear()">
+							<!-- populated by JS -->
+						</select>
+					</h3>
+				</div>
 			</div>
 		</div>
 		
