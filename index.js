@@ -231,6 +231,19 @@ function prevMonth()
 	getTemp();
 }
 
+function jumpToday()
+{
+	currentDay = presentDay;
+	currentMonth = presentMonth;
+	currentYear = presentYear;
+	
+	dt = new Date(currentYear,currentMonth);
+	setMonthName();
+	setYearValue();
+	setDates();
+	getTemp();
+}
+
 /* Location Functions */
 function locSuccess(position)
 {

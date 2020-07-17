@@ -71,3 +71,8 @@ table td
 	color:#FF0000;
 	text-decoration: none;
 }
+
+.fa-calendar-day:hover
+{
+	cursor: pointer;
+}

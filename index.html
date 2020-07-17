@@ -29,7 +29,8 @@
 	<div class="text-center">
 	
 		<div class="row nav-head">
-			<div class="col-6 col-sm-6 col-md-6">
+			<div class="col-1 col-sm-1 col-md-1"></div>
+			<div class="col-5 col-sm-5 col-md-5">
 				<div class="drop">
 					<h2>
 						<select class="drop-menu" id="month-menu" onchange="selectMonth()">
@@ -49,7 +50,7 @@
 					</h2>
 				</div>
 			</div>
-			<div class="col-6 col-sm-6 col-md-6">
+			<div class="col-4 col-sm-4 col-md-4">
 				<div class="drop">
 					<h2>
 						<select class="drop-menu" id="year-menu" onchange="selectYear()">
@@ -57,6 +58,9 @@
 						</select>
 					</h2>
 				</div>
+			</div>
+			<div class="col-2 col-sm-2 col-md-2">
+				<i class="fas fa-2x fa-calendar-day" onclick="jumpToday();"></i>
 			</div>
 		</div>
 		
@@ -84,7 +88,8 @@
 				<i class="fas fa-angle-left fa-2x"></i>
 			</div>
 			
-			<div class="col-2 col-sm-2 col-md-2"><h5><a class="nav-tags" href="javascript:window.location.reload();">Today</a></h5></div>
+			<!-- <div class="col-2 col-sm-2 col-md-2"><h5><a class="nav-tags" href="javascript:window.location.reload();">Today</a></h5></div> -->
+			<div class="col-2 col-sm-2 col-md-2"></div>
 			
 			<div class="col-4 col-sm-4 col-md-4 nav-button" onclick="nextMonth()">
 				<i class="fas fa-angle-right fa-2x"></i>
