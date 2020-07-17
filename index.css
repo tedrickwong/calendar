@@ -20,6 +20,7 @@ table
   border-style: hidden;
   table-layout: fixed;
 }
+
 table td 
 {
   border: 1px solid black;
@@ -29,7 +30,7 @@ table td
 
 .nav-head
 {
-	margin:0;
+	margin-top: 20px;
 	min-width:100vw;
 }
 
@@ -58,4 +59,15 @@ table td
 	background-color: #306EFF;
 	text-align: center;
 	color: #FFFFFF;
+}
+
+.nav-tags
+{
+	text-decoration: none;
+}
+
+.nav-tags:hover
+{
+	color:#FF0000;
+	text-decoration: none;
 }
