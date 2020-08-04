@@ -8,7 +8,6 @@ const presentMonth = currentMonth;
 const presentYear = currentYear;
 const presentDay = currentDay;
 
-
 var latitude;
 var longitude;
 
@@ -208,11 +207,7 @@ function nextMonth()
 	}
 	currentMonth += 1;
 	
-	dt = new Date(currentYear,currentMonth);
-	setMonthName();
-	setYearValue();
-	setDates();
-	getTemp();
+	updateState();
 }
 
 function prevMonth()
@@ -224,11 +219,7 @@ function prevMonth()
 	}
 	currentMonth -= 1;
 	
-	dt = new Date(currentYear,currentMonth);
-	setMonthName();
-	setYearValue();
-	setDates();
-	getTemp();
+	updateState();
 }
 
 function jumpToday()
@@ -237,11 +228,7 @@ function jumpToday()
 	currentMonth = presentMonth;
 	currentYear = presentYear;
 	
-	dt = new Date(currentYear,currentMonth);
-	setMonthName();
-	setYearValue();
-	setDates();
-	getTemp();
+	updateState();
 }
 
 /* Location Functions */
@@ -379,11 +366,7 @@ function selectMonth()
 	var value = monthOption.options[monthOption.selectedIndex].value;
 	currentMonth = value;
 
-	dt = new Date(currentYear,currentMonth);
-	setMonthName();
-	setYearValue();
-	setDates();
-	getTemp();
+	updateState();
 }
 
 function selectYear()
@@ -392,6 +375,11 @@ function selectYear()
 	var value = yearOption.options[yearOption.selectedIndex].value;
 	currentYear = parseInt(value);
 
+	updateState();
+}
+
+function updateState()
+{
 	dt = new Date(currentYear,currentMonth);
 	setMonthName();
 	setYearValue();
