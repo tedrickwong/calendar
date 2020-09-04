@@ -17,7 +17,7 @@
 	<link href="index.css" rel="stylesheet">
 	
 	<!-- Google Fonts -->
-	<link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">	
+	<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 	
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
@@ -27,7 +27,6 @@
 </head>
 <body>
 	<div class="text-center">
-	
 		<div class="row nav-head">
 			<div class="col-1 col-sm-1 col-md-1"></div>
 			<div class="col-5 col-sm-5 col-md-5">
@@ -60,7 +59,10 @@
 				</div>
 			</div>
 			<div class="col-2 col-sm-2 col-md-2">
-				<i class="fas fa-2x fa-calendar-day" onclick="jumpToday();"></i>
+				<div class="menu">
+					<i class="fas fa-2x fa-calendar-day menu__btn" onclick="jumpToday();"></i>
+					<i class="fas fa-2x fa-calendar-alt menu__btn" onclick="monthView();"></i>
+				</div>
 			</div>
 		</div>
 		

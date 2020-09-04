@@ -69,7 +69,7 @@ function setDates()
 				calendarRows += "<tr>";
 				for(j = 0;j < firstDay;j++)
 				{
-					calendarRows += "<td></td>";
+					calendarRows += "<td class='empty'></td>";
 				}
 			}
 		}
